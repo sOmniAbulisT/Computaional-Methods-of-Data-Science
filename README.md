@@ -26,6 +26,6 @@ Located in the 'R/' directory:
 - **LU Decomposition:** Matrix factorization for solving linear systems ('LU function.R').
 - **Eigenvalues:** Numerical methods for computing eigenvalues ('Eigenvalue function.R').
 
-### 2. Optimization (Work in Progress)
+### 2. Optimization Algorithm (Work in Progress)
 - Genetic Algorithms (GA)
 - Simulated Annealing (SA)
