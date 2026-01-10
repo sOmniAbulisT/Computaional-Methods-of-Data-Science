@@ -10,15 +10,22 @@ List LUDecompose(NumericMatrix mat){
   
   NumericMatrix A = clone(mat); 
   
-  // permutation vector
-  IntegerVector P(n); 
+  //Initial permutation matrix
+  NumericMatrix P_mat(n, n); 
   for(int i = 0; i < n; i++){
-    double maxVal = 0.0; 
+    P_mat(i, i)=1;
+  }
+  
+  for(int i = 0; i < n; i++){
+    
+    // pivoting
+    double maxVal = 0.0;
     int imax = i; 
     
     for(int k = i; k < n; k++){
       if(std::abs(A(k, i)) > maxVal){
         maxVal = std::abs(A(k, i)); 
+        imax = k; 
       }
     }
     
@@ -26,29 +33,56 @@ List LUDecompose(NumericMatrix mat){
     
     // row swapping
     if(imax != i){
-      int tempP = P[i]; 
-      P[i] = P[imax]; 
-      P[imax] = tempP; 
+      for(int col = 0; col < n; col++){
+        double temp = A(i, col); 
+        A(i, col) = A(imax, col); 
+        A(imax, col) = temp; 
+      }
       
       for(int col = 0; col < n; col++){
-        double tempVal = A(i, col); 
-        A(i, col) = A(imax, col);
-        A(imax, col) = tempVal; 
+        double temp = P_mat(i, col); 
+        P_mat(i, col) = P_mat(imax, col);
+        P_mat(imax, col) = temp; 
       }
     }
     
-    // Doolittle 
-    for(int j = i+1; j < n; j++){
-      // L matrix; A[j][i] = A[j][i]/A[i][i]
+    // Doolittle Algorithm
+    for(int j = i + 1; j < n; j++){
+      // L matrix
       A(j, i) /= A(i, i); 
       
-      // U matrix; A[j][k]=A[j][k]-L[j][i]*U[i][k]
-      for(int k = i+1; k<n; k++){
-        A(j, k)-=A(j, i)*A(i, k)
+      for(int k = i + 1; k < n; k++){
+        // U matrix
+        A(j, k) -= A(j, i)*A(i, k);
       }
     }
   }
   
-  return List::creat(Named("LU_Matrix") = A, Named("Permutation") = P);
+  NumericMatrix L(n, n); 
+  NumericMatrix U(n, n); 
+  
+  for(int i = 0; i < n; i++){
+    for(int j = 0; j < n; j++){
+      if(i > j){
+        // lower triangular
+        L(i, j) = A(i, j); 
+        U(i, j) = 0; 
+      } else if(i == j) {
+        // diagonal
+        L(i, j) = 1; 
+        U(i, j) = A(i, j); 
+      } else {
+        // upper triangular
+        L(i, j) = 0; 
+        U(i, j) = A(i, j); 
+      }
+    }
+  }
+  
+  return List::create(
+    Named("L") = L, 
+    Named("U") = U, 
+    Named("P") = P_mat
+  ); 
 }
 
