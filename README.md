@@ -11,7 +11,8 @@ without relying on built-in high-level functions. This approach focuses on under
 numerical linear algebra, and optimization techniques.
 
 ## File structure 
-- **'R/'**: Source code of core algorithms and functions
+- **'R/'**: R wrapper functions and high-level logic.
+- **'src/'**: C++ source code for high-performance computing using Rcpp.
 - **'data/'**: Datasets used for testing and validation (e.g., 'CAmaxTemp.txt').
 
 ## Algorithms Implemented
