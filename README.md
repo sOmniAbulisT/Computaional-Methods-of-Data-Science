@@ -1,6 +1,7 @@
 # Computational Methods of Data Science
 
 ![R](https://img.shields.io/badge/Language-R-blue)
+![C++](https://img.shields.io/badge/Language-C++-red)
 ![Status](https://img.shields.io/badge/Status-Active-green)
 
 ## Overview
