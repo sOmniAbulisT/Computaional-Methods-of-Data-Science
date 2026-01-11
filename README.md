@@ -24,8 +24,8 @@ Located in the 'R/' directory:
 - **PCA (Principal Component Analysis):** Implementation of Eigen-decomposition and SVD-based approaches ('PCA function.R').
 - **SVD (Singular Value Decomposition):** Computation of singular values and vectors ('SVD function.R').
 - **ICA (Independent Component Analysis):** Implementation for blind source separation ('ICA function.R').
-- **QR Decomposition:** Gram-Schmidt process or Householder reflections ('QR function.R').
-- **LU Decomposition:** Matrix factorization for solving linear systems ('LU function.R').
+- **QR Decomposition:** Modified Gram-Schmidt algorithm ('QR function.R').
+- **LU Decomposition:** Doolittle Method ('LU function.R').
 - **Eigenvalues:** Numerical methods for computing eigenvalues ('Eigenvalue function.R').
 
 ### 2. Optimization Algorithm (Work in Progress)
