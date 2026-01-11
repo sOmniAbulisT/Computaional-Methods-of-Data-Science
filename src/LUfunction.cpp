@@ -61,7 +61,7 @@ List LUDecompose(NumericMatrix mat){
       }
     }
     
-    // Doolittle Algorithm
+    // Doolittle Method
     for(int j = i + 1; j < n; j++){
       // L matrix
       A(j, i) /= A(i, i); 
