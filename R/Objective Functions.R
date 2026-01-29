@@ -125,3 +125,18 @@ CD <- function(kinshipA, kinshipD = NULL, train, varA = 10, covAxE = 0,
   return(CD_value)
 }
 
+#' Calculated the Mean Squared Predictive Error for genomic selection
+#'
+#'
+
+MSPE <- function(Xt, Xc, lambda = 1){
+  
+}
+
+#' Calculated the r-score for genomic selection
+#'
+#'
+
+Rscore <- function(Xt, Xc){
+  
+}
