@@ -1,11 +1,27 @@
-#' CDmean(v2) function
+#' Calculated Coefficient of Determination for Genomic Selection 
 #' 
-#' This function is calculated the CDmean value for training set 
-#' 
-#' 
+#' @description
+#' This function computes the CD value to evaluate the reliability of genomic prediction.
+#' It supports:
+#' 1. Additive (A) and Additive + Dominance (A + D) models.
+#' 2. Mulit-Environment Trails (MGE model) with GxE interaction. 
+#' 3. Optimizated matrix oprations for fast computation 
+#'
+#' @param kinshipA Matrix. Additive kinship matrix.
+#' @param kinshipD Matrix (option). Dominance kinship matrix.
+#' @param train List. A list containing indices of training individuals for each environment.
+#' @param varA Numeric. Additive variance component (sigma^2_A).
+#' @param covAxE Numeric vector. Covariance for AxE interaction. Default is rep(10, env).
+#' @param varD Numeric. Dominance variance component (sigma^2_D).
+#' @param covDxE Numeric vector. Covariance for DxE interaction. Default is rep(0, env).
+#' @param varE Numeric vector. Residual variance (sigma^2_E). Default is NULL.
+#' @param methods Character. "CDmean(v2)" (default) or "CDmean_MET" (for multi-environment mean).
+#'
+#' @return Numeric. The calculated CD value.
+#'
 
-CD <- function(kinshipA, kinshipD = NULL, train, varA = 10, covAxE = NULL, 
-               varD = 0, covDxE = 0, varE = NULL){
+CD <- function(kinshipA, kinshipD = NULL, train, varA = 10, covAxE = 0, 
+               varD = 0, covDxE = 0, varE = NULL, methods = "CDmean(v2)"){
   env <- length(train); Nc <- nrow(kinshipA)
   
   if(is.null(covAxE)) covAxE <- rep(10, env)
@@ -79,6 +95,33 @@ CD <- function(kinshipA, kinshipD = NULL, train, varA = 10, covAxE = NULL,
     }
   }
   
+  #--- A matrix ---#
+  MGt <- Mt%*%Gt
+  diag(MGt) <- diag(MGt) + 1
+  Solve_MGt <- solve(MGt, Mt)
+  front <- Gct%*%Solve_MGt
+  A_diag <- rowSums(front*Gct)
   
+  #--- B matrix ---#
+  B_diag <- rep(0, Nc*env)
+  kinshipA_diag <- diag(kinshipA)
+  kinshipD_diag <- if(!is.null(kinshipD)) diag(kinshipD) else rep(0, Nc)
+  
+  for(k in seq_len(env)){
+    idx_range <- ((k-1)*Nc + 1) : (k*Nc)
+    B_diag[idx_range] <- (OmegaA[k,k] * kinshipA_diag) + (OmegaD[k,k] * kinshipD_diag)
+  }
+  
+  if(methods == "CDmean(v2)"){
+    CD_value <- mean(A_diag/B_diag)
+  } else if(methods == "CDmean_MET"){
+    warning("CDmean_MET has not implemented, return NULL. ")
+    CD_value <- NULL
+  } else if(methods == "CDranking"){
+    warning("CDranking has not implemented, return NULL. ")
+    CD_value <- NULL  
+  }
+  
+  return(CD_value)
 }
 
