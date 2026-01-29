@@ -115,28 +115,36 @@ CD <- function(kinshipA, kinshipD = NULL, train, varA = 10, covAxE = 0,
   if(methods == "CDmean(v2)"){
     CD_value <- mean(A_diag/B_diag)
   } else if(methods == "CDmean_MET"){
-    warning("CDmean_MET has not implemented, return NULL. ")
-    CD_value <- NULL
+    A_MET_sum <- rep(0, Nc)
+    
+    for(i in seq_len(env)){
+      idx_i <- ((i-1)*Nc + 1):(i * Nc)
+      front_i <- front[idx_i, , drop = FALSE]
+      
+      for(j in seq_len(env)){
+        idx_j <- ((j-1)*Nc + 1):(j * Nc)
+        Gct_j <- Gct[idx_j, , drop = FALSE]
+        
+        block <- rowSums(front_i * Gct_j)
+        A_MET_sum <- A_MET_sum + block
+      }
+    }
+    
+    A_MET_diag <- A_MET_sum / (env^2)
+    
+    OmegaA_sum <- sum(OmegaA)
+    OmegaD_sum <- sum(OmegaD)
+    
+    B_MET_diag <- ((OmegaA_sum * kinshipA_diag) + (OmegaD_sum * kinshipD_diag)) / (env^2)
+    B_MET_diag[B_MET_diag == 0] <- 1e-9
+    
+    CD_value <- mean(A_MET_diag / B_MET_diag)
   } else if(methods == "CDranking"){
     warning("CDranking has not implemented, return NULL. ")
     CD_value <- NULL  
+  } else {
+    warning("Invalid methods selected. Please choose 'CDmean(v2)', 'CDmean_MET', or 'CDranking'. ")
   }
   
   return(CD_value)
-}
-
-#' Calculated the Mean Squared Predictive Error for genomic selection
-#'
-#'
-
-MSPE <- function(Xt, Xc, lambda = 1){
-  
-}
-
-#' Calculated the r-score for genomic selection
-#'
-#'
-
-Rscore <- function(Xt, Xc){
-  
 }
