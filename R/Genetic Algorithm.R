@@ -178,6 +178,7 @@ GA <- function(kinshipA, kinshipD = NULL, DatasetName, TRSSize, nIter = 12000, f
    }
    
   } # End of While Loop
+  future::plan(sequential)
   
   cli::cli_progress_done(id = pb)
   cli::cli_alert_success("Optimization Complete at Generation {.val {iter}!}")
