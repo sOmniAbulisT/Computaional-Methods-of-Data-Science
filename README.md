@@ -26,7 +26,7 @@ Focuses on linear algebra algorithms essential for machine learning and dimensio
 Focuses on probability modeling and statistical simulations.
 * Implementations include: Markov Chain Monte Carlo (MCMC), Gradient Descent, and Expectation-Maximization (EM) algorithms.
 
-### "Basic-Optimization-Techniques"
+### "Basic-Optimization-Techniques/"
 Focuses on metaheuristic algorithms for complex parameter optimization.
 * Implementations include: Genetic Algorithms (GA), Particle Swarm Optimization (PSO), Simulated Annealing (SA), and Ant Colony Optimization (ACO).
 ---
