@@ -6,7 +6,7 @@
 ![Status](https://img.shields.io/badge/Status-Active-green)
 ---
 
-This repository serves as an academic archive for the coursework and algorithmic implementations developed during the **Computational Methods for Data Science** course (Fall 2025). 
+This repository serves as an academic archive for the coursework and algorithmic implementations developed during the **CMDS** course (Fall 2025). 
 
 The primary focus of this repository is the ground-up implementation of various statistical computing methods and metaheuristic optimization algorithms using **R** and **C++ (Rcpp)** for high-performance computing.
 
